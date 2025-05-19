@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Game API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 30px;
+            color: #444;
+        }
+        .endpoint {
+            background-color: #f5f5f5;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        #response {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>VR Game API Test Interface</h1>
+    <p>Use this interface to test the VR Game API endpoints on localhost:8080</p>
+
+    <h2>Games</h2>
+    <div class="endpoint">
+        <h2>GET All Games</h2>
+        <button onclick="getAllGames()">Get All Games</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET Game by ID</h2>
+        <label for="gameId">Game ID:</label>
+        <input type="text" id="gameId" placeholder="Enter Game UUID">
+        <button onclick="getGameById()">Get Game</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>CREATE New Game</h2>
+        <label for="newGameData">Game JSON:</label>
+        <textarea id="newGameData">{
+  "name": "New VR Adventure",
+  "description": "An exciting VR adventure game",
+  "version": 1
+}</textarea>
+        <button onclick="createGame()">Create Game</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>UPDATE Game</h2>
+        <label for="updateGameId">Game ID to Update:</label>
+        <input type="text" id="updateGameId" placeholder="Enter Game UUID">
+        <label for="updateGameData">Updated Game JSON:</label>
+        <textarea id="updateGameData">{
+  "name": "Updated VR Adventure",
+  "description": "This game has been updated",
+  "version": 2
+}</textarea>
+        <button onclick="updateGame()">Update Game</button>
+    </div>
+
+    <h2>Scenes</h2>
+    <div class="endpoint">
+        <h2>GET All Scenes</h2>
+        <button onclick="getAllScenes()">Get All Scenes</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET Scene by ID</h2>
+        <label for="sceneId">Scene ID:</label>
+        <input type="text" id="sceneId" placeholder="Enter Scene UUID">
+        <button onclick="getSceneById()">Get Scene</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET Scenes by Game ID</h2>
+        <label for="gameIdForScenes">Game ID:</label>
+        <input type="text" id="gameIdForScenes" placeholder="Enter Game UUID">
+        <button onclick="getScenesByGameId()">Get Scenes</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>CREATE New Scene</h2>
+        <label for="newSceneData">Scene JSON:</label>
+        <textarea id="newSceneData">{
+  "gameId": "",
+  "name": "Forest Scene",
+  "sequence": 1,
+  "version": 1
+}</textarea>
+        <button onclick="createScene()">Create Scene</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>UPDATE Scene</h2>
+        <label for="updateSceneId">Scene ID to Update:</label>
+        <input type="text" id="updateSceneId" placeholder="Enter Scene UUID">
+        <label for="updateSceneData">Updated Scene JSON:</label>
+        <textarea id="updateSceneData">{
+  "gameId": "",
+  "name": "Updated Forest Scene",
+  "sequence": 1,
+  "version": 2
+}</textarea>
+        <button onclick="updateScene()">Update Scene</button>
+    </div>
+
+    <h2>Characters</h2>
+    <div class="endpoint">
+        <h2>GET All Characters</h2>
+        <button onclick="getAllCharacters()">Get All Characters</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET Character by ID</h2>
+        <label for="characterId">Character ID:</label>
+        <input type="text" id="characterId" placeholder="Enter Character UUID">
+        <button onclick="getCharacterById()">Get Character</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET Characters by Scene ID</h2>
+        <label for="sceneIdForCharacters">Scene ID:</label>
+        <input type="text" id="sceneIdForCharacters" placeholder="Enter Scene UUID">
+        <button onclick="getCharactersBySceneId()">Get Characters</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>GET Characters by Game ID</h2>
+        <label for="gameIdForCharacters">Game ID:</label>
+        <input type="text" id="gameIdForCharacters" placeholder="Enter Game UUID">
+        <button onclick="getCharactersByGameId()">Get Characters</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>CREATE New Character</h2>
+        <label for="newCharacterData">Character JSON:</label>
+        <textarea id="newCharacterData">{
+  "sceneId": "",
+  "name": "Hero Character",
+  "version": 1
+}</textarea>
+        <button onclick="createCharacter()">Create Character</button>
+    </div>
+
+    <div class="endpoint">
+        <h2>UPDATE Character</h2>
+        <label for="updateCharacterId">Character ID to Update:</label>
+        <input type="text" id="updateCharacterId" placeholder="Enter Character UUID">
+        <label for="updateCharacterData">Updated Character JSON:</label>
+        <textarea id="updateCharacterData">{
+  "sceneId": "",
+  "name": "Updated Hero Character",
+  "version": 2
+}</textarea>
+        <button onclick="updateCharacter()">Update Character</button>
+    </div>
+
+    <h2>Response:</h2>
+    <div id="response">No response yet</div>
+
+    <script>
+        const baseUrl = 'http://localhost:8080/api';
+        const gamesUrl = `${baseUrl}/games`;
+        const scenesUrl = `${baseUrl}/scenes`;
+        const charactersUrl = `${baseUrl}/characters`;
+        const responseEl = document.getElementById('response');
+
+        function displayResponse(data, status) {
+            responseEl.innerHTML = `Status: ${status}\n\n${
+                typeof data === 'object' ? JSON.stringify(data, null, 2) : data
+            }`;
+        }
+
+        function handleError(error) {
+            console.error('API Error:', error);
+            responseEl.innerHTML = `Error: ${error.message}`;
+        }
+
+        // GAME FUNCTIONS
+        // GET all games
+        async function getAllGames() {
+            try {
+                const response = await fetch(gamesUrl);
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // GET game by ID
+        async function getGameById() {
+            const gameId = document.getElementById('gameId').value.trim();
+            if (!gameId) {
+                alert('Please enter a game ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${gamesUrl}/${gameId}`);
+                if (!response.ok) {
+                    displayResponse(`Game with ID ${gameId} not found`, response.status);
+                    return;
+                }
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // CREATE a new game
+        async function createGame() {
+            const gameData = document.getElementById('newGameData').value;
+            
+            try {
+                const parsedData = JSON.parse(gameData);
+                
+                const response = await fetch(gamesUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: gameData
+                });
+                
+                const data = await response.json();
+                displayResponse(data, response.status);
+                
+                // Update the gameId fields with the new game's ID
+                if (response.ok) {
+                    document.getElementById('gameId').value = data.id;
+                    document.getElementById('updateGameId').value = data.id;
+                    document.getElementById('gameIdForScenes').value = data.id;
+                    document.getElementById('gameIdForCharacters').value = data.id;
+                    
+                    // Update gameId in scene JSON templates
+                    const newSceneData = JSON.parse(document.getElementById('newSceneData').value);
+                    newSceneData.gameId = data.id;
+                    document.getElementById('newSceneData').value = JSON.stringify(newSceneData, null, 2);
+                    
+                    const updateSceneData = JSON.parse(document.getElementById('updateSceneData').value);
+                    updateSceneData.gameId = data.id;
+                    document.getElementById('updateSceneData').value = JSON.stringify(updateSceneData, null, 2);
+                }
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // UPDATE a game
+        async function updateGame() {
+            const gameId = document.getElementById('updateGameId').value.trim();
+            if (!gameId) {
+                alert('Please enter a game ID to update');
+                return;
+            }
+
+            const gameData = document.getElementById('updateGameData').value;
+            
+            try {
+                const parsedData = JSON.parse(gameData);
+                
+                const response = await fetch(`${gamesUrl}/${gameId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: gameData
+                });
+                
+                if (!response.ok) {
+                    displayResponse(`Error updating game: ${response.statusText}`, response.status);
+                    return;
+                }
+                
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // SCENE FUNCTIONS
+        // GET all scenes
+        async function getAllScenes() {
+            try {
+                const response = await fetch(`${scenesUrl}/`);
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // GET scene by ID
+        async function getSceneById() {
+            const sceneId = document.getElementById('sceneId').value.trim();
+            if (!sceneId) {
+                alert('Please enter a scene ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${scenesUrl}/${sceneId}`);
+                if (!response.ok) {
+                    displayResponse(`Scene with ID ${sceneId} not found`, response.status);
+                    return;
+                }
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // GET scenes by game ID
+        async function getScenesByGameId() {
+            const gameId = document.getElementById('gameIdForScenes').value.trim();
+            if (!gameId) {
+                alert('Please enter a game ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${scenesUrl}/game/${gameId}`);
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // CREATE a new scene
+        async function createScene() {
+            const sceneData = document.getElementById('newSceneData').value;
+            
+            try {
+                const parsedData = JSON.parse(sceneData);
+                
+                if (!parsedData.gameId) {
+                    alert('Please create a game first or enter a valid game ID in the scene data');
+                    return;
+                }
+                
+                const response = await fetch(scenesUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: sceneData
+                });
+                
+                const data = await response.json();
+                displayResponse(data, response.status);
+                
+                // Update the sceneId fields with the new scene's ID
+                if (response.ok) {
+                    document.getElementById('sceneId').value = data.id;
+                    document.getElementById('updateSceneId').value = data.id;
+                    document.getElementById('sceneIdForCharacters').value = data.id;
+                    
+                    // Update sceneId in character JSON templates
+                    const newCharacterData = JSON.parse(document.getElementById('newCharacterData').value);
+                    newCharacterData.sceneId = data.id;
+                    document.getElementById('newCharacterData').value = JSON.stringify(newCharacterData, null, 2);
+                    
+                    const updateCharacterData = JSON.parse(document.getElementById('updateCharacterData').value);
+                    updateCharacterData.sceneId = data.id;
+                    document.getElementById('updateCharacterData').value = JSON.stringify(updateCharacterData, null, 2);
+                }
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // UPDATE a scene
+        async function updateScene() {
+            const sceneId = document.getElementById('updateSceneId').value.trim();
+            if (!sceneId) {
+                alert('Please enter a scene ID to update');
+                return;
+            }
+
+            const sceneData = document.getElementById('updateSceneData').value;
+            
+            try {
+                const parsedData = JSON.parse(sceneData);
+                
+                if (!parsedData.gameId) {
+                    alert('Please enter a valid game ID in the scene data');
+                    return;
+                }
+                
+                const response = await fetch(`${scenesUrl}/${sceneId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: sceneData
+                });
+                
+                if (!response.ok) {
+                    displayResponse(`Error updating scene: ${response.statusText}`, response.status);
+                    return;
+                }
+                
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // CHARACTER FUNCTIONS
+        // GET all characters
+        async function getAllCharacters() {
+            try {
+                const response = await fetch(charactersUrl);
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // GET character by ID
+        async function getCharacterById() {
+            const characterId = document.getElementById('characterId').value.trim();
+            if (!characterId) {
+                alert('Please enter a character ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${charactersUrl}/${characterId}`);
+                if (!response.ok) {
+                    displayResponse(`Character with ID ${characterId} not found`, response.status);
+                    return;
+                }
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // GET characters by scene ID
+        async function getCharactersBySceneId() {
+            const sceneId = document.getElementById('sceneIdForCharacters').value.trim();
+            if (!sceneId) {
+                alert('Please enter a scene ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${charactersUrl}/scene/${sceneId}`);
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // GET characters by game ID
+        async function getCharactersByGameId() {
+            const gameId = document.getElementById('gameIdForCharacters').value.trim();
+            if (!gameId) {
+                alert('Please enter a game ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${charactersUrl}/game/${gameId}`);
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // CREATE a new character
+        async function createCharacter() {
+            const characterData = document.getElementById('newCharacterData').value;
+            
+            try {
+                const parsedData = JSON.parse(characterData);
+                
+                if (!parsedData.sceneId) {
+                    alert('Please create a scene first or enter a valid scene ID in the character data');
+                    return;
+                }
+                
+                const response = await fetch(charactersUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: characterData
+                });
+                
+                const data = await response.json();
+                displayResponse(data, response.status);
+                
+                // Update the characterId fields with the new character's ID
+                if (response.ok) {
+                    document.getElementById('characterId').value = data.id;
+                    document.getElementById('updateCharacterId').value = data.id;
+                }
+            } catch (error) {
+                handleError(error);
+            }
+        }
+
+        // UPDATE a character
+        async function updateCharacter() {
+            const characterId = document.getElementById('updateCharacterId').value.trim();
+            if (!characterId) {
+                alert('Please enter a character ID to update');
+                return;
+            }
+
+            const characterData = document.getElementById('updateCharacterData').value;
+            
+            try {
+                const parsedData = JSON.parse(characterData);
+                
+                if (!parsedData.sceneId) {
+                    alert('Please enter a valid scene ID in the character data');
+                    return;
+                }
+                
+                const response = await fetch(`${charactersUrl}/${characterId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: characterData
+                });
+                
+                if (!response.ok) {
+                    displayResponse(`Error updating character: ${response.statusText}`, response.status);
+                    return;
+                }
+                
+                const data = await response.json();
+                displayResponse(data, response.status);
+            } catch (error) {
+                handleError(error);
+            }
+        }
+    </script>
+</body>
+</html>
