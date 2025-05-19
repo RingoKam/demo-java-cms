@@ -8,7 +8,7 @@ I made some design assumptions stated below, let me know if any of this
 is a no go and I can make adjustments. 
 
 * No user defined schema, data model is defined in code and not modifable by client. Which means that if a model needs an update, we will rebuild our code and release. 
-* Although our data models are related and referencing each other by id (game -> scene -> character), I have choosen NOT to nest our response model. This will probably create inconveience for the client, and if client query is not done right, it can lead to inefficiency and trigger n+1 query. 
+* Although our data models are related and referencing each other by id (game -> scene -> character), I have chosen NOT to nest our response model. This will probably create inconvenience for the client, and if client query is not done right, it can lead to inefficiency and trigger n+1 query. 
 * For Read, user can lookup via
   * id of the entity (single)
   * list of id (multiple)

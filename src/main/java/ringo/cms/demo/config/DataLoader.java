@@ -1,4 +1,4 @@
-package ringo.cms.demo.Config;
+package ringo.cms.demo.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

@@ -50,15 +50,12 @@ public class VrCharacterRepository {
     }
     
     public Collection<VrCharacter> findByGameId(UUID gameId) {
-        // Get all scenes for this game
         Collection<VrScene> gameScenes = sceneRepository.findByGameId(gameId);
         
-        // Get the scene IDs
         Collection<UUID> sceneIds = gameScenes.stream()
                 .map(VrScene::getId)
                 .collect(Collectors.toList());
         
-        // Find characters in all these scenes
         return contentStore.values().stream()
                 .filter(VrCharacter.class::isInstance)
                 .map(VrCharacter.class::cast)
