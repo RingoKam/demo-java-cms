@@ -32,11 +32,10 @@ With the assumption out of the way, Let's proceed to look at our project.
    2. I skipped service layer in this case since there aren't really any business logic. If we want to be more vigilant about separation of concern, we can add the service class and also create request model + domain model, where one is straight for client and the other is for domain/business logic.  
    3. For the repository, at first I started with creating 3 separate repository for each of the model, however none of them has any unqiue query right now, so I opted for a simpler approach where we have one repository class, and based on the generic class being passed in, it will go to its appropriate location in the hashmap. 
 5. now we just need to standup the scripts, which we have defined in `Config/DataLoader.java`. By implmeneting the CommandLineRunner, the defined code will run before the server start receiving requests.
-6. 
 
 ## Further things / Bonus
 1. Currently we are just returning the data model as is without any meta data or standardize structure. As system grow in complexity, it may make sense for us to use standardize our responses with standards (ex: JSONAPI). However the standardize structure does add complexity and for most of the time, it will require clientside to stiches things back together before it can be usable for the frontend. 
-2.  
+2. Regarding the bonus question, with the setup we have, there is actually quite a bit of work to **ADD** a new model. We will need to add a new controller + model + repository. If reducing code is the goal here, I will try to center the configuration/modification work to our model, and make our controller/repository support generic. so instead of a new controller/repository for every model, it will be Controller<T>. If we want to take things a bit further, we can some kind of schema to define our model, and all the code will be generated based on that given model. 
 
 ## Misc/learnings/Notes
 * packages is kinda similar to C# namespaces
@@ -45,3 +44,4 @@ With the assumption out of the way, Let's proceed to look at our project.
 * I couldn't decide between gradle vs maven, I end up choosing gradle just because it has more functionality
 * Springboot DI seems to encourage certain design practice. It does feel off to reference the actual implementation class during ctor injection
 * Generic syntax takes some time to get used to, <T> T MethodName looks a confusing at first.
+* I Thrown in Swagger to make exploring the API a breeze, setting it up seems fairly straight forward 

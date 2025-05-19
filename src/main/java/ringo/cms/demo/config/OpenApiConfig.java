@@ -17,7 +17,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("VR Character Management API")
+                        .title("Ringo CMS Demo API")
                         .version("1.0.0")
                         .description("API for managing VR characters, games, and scenes"))
                 .servers(List.of(
